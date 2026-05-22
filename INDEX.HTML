@@ -461,6 +461,14 @@
   <a href="#client-db" class="nav-item" id="nav-client-db">
     <span class="nav-icon">👥</span> Client Database
   </a>
+  <a href="#new-prospects" class="nav-item" id="nav-prospects">
+    <span class="nav-icon">🌱</span> New Prospects
+    <span class="nav-badge" id="prospectsNavBadge">4</span>
+  </a>
+  <a href="#follow-up" class="nav-item" id="nav-followup">
+    <span class="nav-icon">🔁</span> Follow Up
+    <span class="nav-badge" id="followupNavBadge" style="background:var(--teal);display:none">0</span>
+  </a>
 
   <div class="nav-section-label">Training</div>
   <a href="#" class="nav-item">
@@ -976,6 +984,187 @@
     </div>
   </div>
 
+  <!-- New Prospects Section -->
+  <div id="new-prospects" style="margin-top:36px;">
+    <div class="section-title">🌱 New Prospects</div>
+
+    <div class="db-toolbar">
+      <div class="db-search-wrap">
+        <span class="db-search-icon">🔍</span>
+        <input class="db-search" id="prospectSearch" type="text" placeholder="Search prospects…" oninput="filterProspects()">
+      </div>
+      <div class="db-toolbar-right">
+        <button class="qa-btn qa-primary" onclick="openAddProspectModal()" style="padding:9px 16px;font-size:12px;">＋ Add Prospect</button>
+      </div>
+    </div>
+
+    <div class="db-chips">
+      <div class="db-chip chip-mint">🌱 <span id="prospectCount">4</span> New Prospects</div>
+      <div class="db-chip chip-lavender">🔁 Click <strong>Convert</strong> to move to Follow Up</div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="overflow-x:auto;">
+        <table class="client-table" id="prospectTable">
+          <thead>
+            <tr>
+              <th class="col-sno">S.No</th>
+              <th>Name</th>
+              <th>Business Center</th>
+              <th>Base Club</th>
+              <th>Mail ID</th>
+              <th>Mobile Number</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="prospectTbody">
+            <tr>
+              <td class="td-sno">1</td>
+              <td><div class="client-name-cell"><div class="client-avatar" style="background:linear-gradient(135deg,#d4f0e8,#a8e0cc)">PK</div><span>Priya Kumari</span></div></td>
+              <td><span class="bc-tag">North Hub</span></td>
+              <td>Greenfield GC</td>
+              <td><a class="mail-link" href="mailto:priya.k@email.com">priya.k@email.com</a></td>
+              <td>📱 91234 00001</td>
+              <td><div class="action-btns">
+                <button class="act-btn act-convert" title="Convert to Follow Up" onclick="convertProspect(this)">✅</button>
+                <button class="act-btn act-edit" onclick="editProspectRow(this)">✏️</button>
+                <button class="act-btn act-del" onclick="deleteProspectRow(this)">🗑</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td class="td-sno">2</td>
+              <td><div class="client-name-cell"><div class="client-avatar" style="background:linear-gradient(135deg,#fde8d4,#f0c8a8)">RM</div><span>Rahul Menon</span></div></td>
+              <td><span class="bc-tag bc-south">South Hub</span></td>
+              <td>Palm Meadows CC</td>
+              <td><a class="mail-link" href="mailto:rahul.m@mail.in">rahul.m@mail.in</a></td>
+              <td>📱 98765 11002</td>
+              <td><div class="action-btns">
+                <button class="act-btn act-convert" title="Convert to Follow Up" onclick="convertProspect(this)">✅</button>
+                <button class="act-btn act-edit" onclick="editProspectRow(this)">✏️</button>
+                <button class="act-btn act-del" onclick="deleteProspectRow(this)">🗑</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td class="td-sno">3</td>
+              <td><div class="client-name-cell"><div class="client-avatar" style="background:linear-gradient(135deg,#e5ddf5,#c9b8ea)">SG</div><span>Sunita Gupta</span></div></td>
+              <td><span class="bc-tag bc-east">East Hub</span></td>
+              <td>Sunrise Valley GC</td>
+              <td><a class="mail-link" href="mailto:sunita.g@corp.net">sunita.g@corp.net</a></td>
+              <td>📱 87654 22003</td>
+              <td><div class="action-btns">
+                <button class="act-btn act-convert" title="Convert to Follow Up" onclick="convertProspect(this)">✅</button>
+                <button class="act-btn act-edit" onclick="editProspectRow(this)">✏️</button>
+                <button class="act-btn act-del" onclick="deleteProspectRow(this)">🗑</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td class="td-sno">4</td>
+              <td><div class="client-name-cell"><div class="client-avatar" style="background:linear-gradient(135deg,#d6eaf8,#a8cce8)">AT</div><span>Arjun Tiwari</span></div></td>
+              <td><span class="bc-tag bc-west">West Hub</span></td>
+              <td>Royal Palms Club</td>
+              <td><a class="mail-link" href="mailto:arjun.t@works.io">arjun.t@works.io</a></td>
+              <td>📱 76543 33004</td>
+              <td><div class="action-btns">
+                <button class="act-btn act-convert" title="Convert to Follow Up" onclick="convertProspect(this)">✅</button>
+                <button class="act-btn act-edit" onclick="editProspectRow(this)">✏️</button>
+                <button class="act-btn act-del" onclick="deleteProspectRow(this)">🗑</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="db-pagination">
+        <span class="pg-info" id="prospectPgInfo">Showing 1–4 of 4 prospects</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Follow Up Section -->
+  <div id="follow-up" style="margin-top:36px;">
+    <div class="section-title">🔁 Follow Up</div>
+
+    <div class="db-chips">
+      <div class="db-chip chip-blush">🔁 <span id="followupCount">0</span> In Follow Up</div>
+      <div class="db-chip chip-butter">Converted from New Prospects</div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="overflow-x:auto;">
+        <table class="client-table" id="followupTable">
+          <thead>
+            <tr>
+              <th class="col-sno">S.No</th>
+              <th>Name</th>
+              <th>Business Center</th>
+              <th>Base Club</th>
+              <th>Mail ID</th>
+              <th>Mobile Number</th>
+              <th>Converted On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="followupTbody">
+            <tr id="followup-empty">
+              <td colspan="8" style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">
+                🌱 No prospects converted yet. Click <strong>✅ Convert</strong> on a prospect above.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="db-pagination">
+        <span class="pg-info" id="followupPgInfo">Showing 0 entries</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Prospect Modal -->
+  <div class="modal-overlay" id="addProspectModal" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🌱 Add New Prospect</div>
+        <button class="modal-close" onclick="closeAddProspectModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="pinp-name" placeholder="e.g. Priya Kumari">
+          </div>
+          <div class="form-group">
+            <label>Business Center</label>
+            <select id="pinp-bc">
+              <option value="">Select Hub</option>
+              <option>North Hub</option>
+              <option>South Hub</option>
+              <option>East Hub</option>
+              <option>West Hub</option>
+              <option>Central Hub</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Base Club</label>
+            <input type="text" id="pinp-club" placeholder="e.g. Greenfield GC">
+          </div>
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="text" id="pinp-mobile" placeholder="e.g. 91234 00001">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px">
+          <label>Mail ID</label>
+          <input type="email" id="pinp-email" placeholder="e.g. name@email.com">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="qa-btn qa-secondary" onclick="closeAddProspectModal()">Cancel</button>
+        <button class="qa-btn qa-primary" onclick="addProspect()">✓ Add Prospect</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Add Client Modal -->
   <div class="modal-overlay" id="addModal" style="display:none">
     <div class="modal-box">
@@ -1176,6 +1365,8 @@
   .act-edit:hover { background: var(--violet); }
   .act-del { background: #fde8e8; }
   .act-del:hover { background: #f0b8b8; }
+  .act-convert { background: var(--mint); }
+  .act-convert:hover { background: var(--teal); }
 
   /* Pagination */
   .db-pagination {
@@ -1423,7 +1614,185 @@
     document.getElementById('client-db').scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
 
-  // Export CSV
+  // ── Prospects nav scroll ──
+  document.getElementById('nav-prospects').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('new-prospects').scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('nav-prospects').classList.add('active');
+  });
+  document.getElementById('nav-followup').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('follow-up').scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('nav-followup').classList.add('active');
+  });
+
+  // ── Prospect search ──
+  function filterProspects() {
+    const q = document.getElementById('prospectSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#prospectTbody tr');
+    let visible = 0;
+    rows.forEach(row => {
+      const match = !q || row.textContent.toLowerCase().includes(q);
+      row.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    document.getElementById('prospectPgInfo').textContent = `Showing 1–${visible} of ${visible} prospects`;
+    document.getElementById('prospectCount').textContent = visible;
+  }
+
+  // ── Renumber prospects ──
+  function renumberProspects() {
+    const rows = document.querySelectorAll('#prospectTbody tr');
+    let n = 1;
+    rows.forEach(r => { if (r.style.display !== 'none') r.cells[0].textContent = n++; });
+    const total = n - 1;
+    document.getElementById('prospectPgInfo').textContent = `Showing 1–${total} of ${total} prospects`;
+    document.getElementById('prospectCount').textContent = total;
+    document.getElementById('prospectsNavBadge').textContent = total;
+  }
+
+  // ── Renumber follow-up ──
+  function renumberFollowup() {
+    const rows = document.querySelectorAll('#followupTbody tr:not(#followup-empty)');
+    let n = 1;
+    rows.forEach(r => { r.cells[0].textContent = n++; });
+    const total = n - 1;
+    document.getElementById('followupPgInfo').textContent = total > 0 ? `Showing 1–${total} of ${total} entries` : 'Showing 0 entries';
+    document.getElementById('followupCount').textContent = total;
+    const badge = document.getElementById('followupNavBadge');
+    badge.textContent = total;
+    badge.style.display = total > 0 ? '' : 'none';
+    document.getElementById('followup-empty').style.display = total > 0 ? 'none' : '';
+  }
+
+  // ── Convert Prospect → Follow Up ──
+  function convertProspect(btn) {
+    const row = btn.closest('tr');
+    const name = row.cells[1].querySelector('span')?.textContent || row.cells[1].textContent.trim();
+    const avatarEl = row.cells[1].querySelector('.client-avatar');
+    const avatarStyle = avatarEl ? avatarEl.getAttribute('style') : '';
+    const initials = avatarEl ? avatarEl.textContent.trim() : name.substring(0,2).toUpperCase();
+    const bc = row.cells[2].innerHTML;
+    const club = row.cells[3].textContent.trim();
+    const mail = row.cells[4].innerHTML;
+    const mob = row.cells[5].textContent.trim();
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+
+    // Animate out of prospects
+    row.style.transition = 'all 0.35s';
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(30px)';
+    setTimeout(() => {
+      row.remove();
+      renumberProspects();
+
+      // Add to follow-up
+      const tbody = document.getElementById('followupTbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="td-sno">1</td>
+        <td><div class="client-name-cell"><div class="client-avatar" style="${avatarStyle}">${initials}</div><span>${name}</span></div></td>
+        <td>${bc}</td>
+        <td>${club}</td>
+        <td>${mail}</td>
+        <td>${mob}</td>
+        <td><span class="status-pill pill-running" style="font-size:11px">${dateStr}</span></td>
+        <td><div class="action-btns"><button class="act-btn act-del" onclick="deleteFollowupRow(this)">🗑</button></div></td>
+      `;
+      tr.style.opacity = '0'; tr.style.transform = 'translateY(10px)';
+      tbody.appendChild(tr);
+      setTimeout(() => { tr.style.transition = 'all 0.3s'; tr.style.opacity = '1'; tr.style.transform = ''; }, 10);
+      renumberFollowup();
+
+      // Scroll to follow-up briefly to confirm
+      document.getElementById('follow-up').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 350);
+  }
+
+  // ── Delete prospect row ──
+  function deleteProspectRow(btn) {
+    const row = btn.closest('tr');
+    row.style.opacity = '0'; row.style.transform = 'translateX(20px)'; row.style.transition = 'all 0.3s';
+    setTimeout(() => { row.remove(); renumberProspects(); }, 300);
+  }
+
+  // ── Delete follow-up row ──
+  function deleteFollowupRow(btn) {
+    const row = btn.closest('tr');
+    row.style.opacity = '0'; row.style.transform = 'translateX(20px)'; row.style.transition = 'all 0.3s';
+    setTimeout(() => { row.remove(); renumberFollowup(); }, 300);
+  }
+
+  // ── Edit prospect row ──
+  function editProspectRow(btn) {
+    const row = btn.closest('tr');
+    const cells = row.cells;
+    const isEditing = btn.dataset.editing === 'true';
+    if (isEditing) {
+      [1,2,3,4,5].forEach(i => {
+        const inp = cells[i].querySelector('input,select');
+        if (!inp) return;
+        if (i === 1) cells[i].innerHTML = `<div class="client-name-cell"><div class="client-avatar" style="background:linear-gradient(135deg,#e5ddf5,#c9b8ea)">${inp.value.substring(0,2).toUpperCase()}</div><span>${inp.value}</span></div>`;
+        else if (i === 2) cells[i].innerHTML = `<span class="bc-tag">${inp.value}</span>`;
+        else if (i === 4) cells[i].innerHTML = `<a class="mail-link" href="mailto:${inp.value}">${inp.value}</a>`;
+        else cells[i].textContent = inp.value;
+      });
+      btn.textContent = '✏️'; btn.dataset.editing = 'false';
+    } else {
+      const name = cells[1].querySelector('span')?.textContent || cells[1].textContent;
+      cells[1].innerHTML = `<input style="border:1.5px solid var(--violet);border-radius:8px;padding:4px 8px;font-size:12px;font-family:DM Sans,sans-serif;width:140px" value="${name}">`;
+      cells[2].innerHTML = `<select style="border:1.5px solid var(--violet);border-radius:8px;padding:4px 8px;font-size:12px;font-family:DM Sans,sans-serif"><option>North Hub</option><option>South Hub</option><option>East Hub</option><option>West Hub</option><option>Central Hub</option></select>`;
+      cells[2].querySelector('select').value = cells[2].querySelector('select').options[0]?.value;
+      cells[3].innerHTML = `<input style="border:1.5px solid var(--violet);border-radius:8px;padding:4px 8px;font-size:12px;font-family:DM Sans,sans-serif;width:130px" value="${cells[3].textContent.trim()}">`;
+      cells[4].innerHTML = `<input style="border:1.5px solid var(--violet);border-radius:8px;padding:4px 8px;font-size:12px;font-family:DM Sans,sans-serif;width:160px" value="${cells[4].textContent.trim()}">`;
+      cells[5].innerHTML = `<input style="border:1.5px solid var(--violet);border-radius:8px;padding:4px 8px;font-size:12px;font-family:DM Sans,sans-serif;width:120px" value="${cells[5].textContent.trim()}">`;
+      btn.textContent = '💾'; btn.dataset.editing = 'true';
+    }
+  }
+
+  // ── Add Prospect Modal ──
+  function openAddProspectModal() { document.getElementById('addProspectModal').style.display = 'flex'; }
+  function closeAddProspectModal() { document.getElementById('addProspectModal').style.display = 'none'; }
+
+  function addProspect() {
+    const name = document.getElementById('pinp-name').value.trim();
+    const bc = document.getElementById('pinp-bc').value;
+    const club = document.getElementById('pinp-club').value.trim();
+    const email = document.getElementById('pinp-email').value.trim();
+    const mobile = document.getElementById('pinp-mobile').value.trim();
+    if (!name || !bc || !club || !email || !mobile) { alert('Please fill in all fields.'); return; }
+    const tbody = document.getElementById('prospectTbody');
+    const sno = tbody.querySelectorAll('tr').length + 1;
+    const initials = name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const bcClass = {'North Hub':'','South Hub':'bc-south','East Hub':'bc-east','West Hub':'bc-west','Central Hub':'bc-central'}[bc]||'';
+    const colors = ['linear-gradient(135deg,#d4f0e8,#a8e0cc)','linear-gradient(135deg,#e5ddf5,#c9b8ea)','linear-gradient(135deg,#fde8d4,#f0c8a8)','linear-gradient(135deg,#d6eaf8,#a8cce8)','linear-gradient(135deg,#f9dde0,#f0b8be)'];
+    const col = colors[sno % colors.length];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-sno">${sno}</td>
+      <td><div class="client-name-cell"><div class="client-avatar" style="background:${col}">${initials}</div><span>${name}</span></div></td>
+      <td><span class="bc-tag ${bcClass}">${bc}</span></td>
+      <td>${club}</td>
+      <td><a class="mail-link" href="mailto:${email}">${email}</a></td>
+      <td>📱 ${mobile}</td>
+      <td><div class="action-btns">
+        <button class="act-btn act-convert" title="Convert to Follow Up" onclick="convertProspect(this)">✅</button>
+        <button class="act-btn act-edit" onclick="editProspectRow(this)">✏️</button>
+        <button class="act-btn act-del" onclick="deleteProspectRow(this)">🗑</button>
+      </div></td>
+    `;
+    tr.style.opacity = '0'; tr.style.transform = 'translateY(10px)';
+    tbody.appendChild(tr);
+    setTimeout(() => { tr.style.transition = 'all 0.3s'; tr.style.opacity = '1'; tr.style.transform = ''; }, 10);
+    closeAddProspectModal();
+    renumberProspects();
+    ['pinp-name','pinp-bc','pinp-club','pinp-email','pinp-mobile'].forEach(id => document.getElementById(id).value = '');
+  }
+
+  // ── Export CSV ──
   function exportCSV() {
     const rows = document.querySelectorAll('#clientTbody tr');
     let csv = 'S.No,Name,Business Center,Base Club,Mail ID,Mobile Number\n';
