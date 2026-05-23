@@ -1670,46 +1670,47 @@
   // ── Convert Prospect → Follow Up ──
   function convertProspect(btn) {
     const row = btn.closest('tr');
-    const name = row.cells[1].querySelector('span')?.textContent || row.cells[1].textContent.trim();
+
+    // Grab data before removing
+    const name     = (row.cells[1].querySelector('span') || row.cells[1]).textContent.trim();
     const avatarEl = row.cells[1].querySelector('.client-avatar');
     const avatarStyle = avatarEl ? avatarEl.getAttribute('style') : '';
-    const initials = avatarEl ? avatarEl.textContent.trim() : name.substring(0,2).toUpperCase();
-    const bc = row.cells[2].innerHTML;
+    const initials    = avatarEl ? avatarEl.textContent.trim() : name.substring(0,2).toUpperCase();
+    const bc   = row.cells[2].innerHTML;
     const club = row.cells[3].textContent.trim();
     const mail = row.cells[4].innerHTML;
-    const mob = row.cells[5].textContent.trim();
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const mob  = row.cells[5].textContent.trim();
+    const dateStr = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
 
-    // Animate out of prospects
-    row.style.transition = 'all 0.35s';
-    row.style.opacity = '0';
-    row.style.transform = 'translateX(30px)';
-    setTimeout(() => {
-      row.remove();
-      renumberProspects();
+    // Remove from prospects immediately
+    row.remove();
+    renumberProspects();
 
-      // Add to follow-up
-      const tbody = document.getElementById('followupTbody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="td-sno">1</td>
-        <td><div class="client-name-cell"><div class="client-avatar" style="${avatarStyle}">${initials}</div><span>${name}</span></div></td>
-        <td>${bc}</td>
-        <td>${club}</td>
-        <td>${mail}</td>
-        <td>${mob}</td>
-        <td><span class="status-pill pill-running" style="font-size:11px">${dateStr}</span></td>
-        <td><div class="action-btns"><button class="act-btn act-del" onclick="deleteFollowupRow(this)">🗑</button></div></td>
-      `;
-      tr.style.opacity = '0'; tr.style.transform = 'translateY(10px)';
-      tbody.appendChild(tr);
-      setTimeout(() => { tr.style.transition = 'all 0.3s'; tr.style.opacity = '1'; tr.style.transform = ''; }, 10);
-      renumberFollowup();
+    // Build follow-up row
+    const tbody = document.getElementById('followupTbody');
+    const emptyRow = document.getElementById('followup-empty');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-sno"></td>
+      <td><div class="client-name-cell"><div class="client-avatar" style="${avatarStyle}">${initials}</div><span>${name}</span></div></td>
+      <td>${bc}</td>
+      <td>${club}</td>
+      <td>${mail}</td>
+      <td>${mob}</td>
+      <td><span class="status-pill pill-running" style="font-size:11px">${dateStr}</span></td>
+      <td><div class="action-btns"><button class="act-btn act-del" onclick="deleteFollowupRow(this)">🗑</button></div></td>
+    `;
 
-      // Scroll to follow-up briefly to confirm
-      document.getElementById('follow-up').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 350);
+    // Insert BEFORE the empty-state row so it appears at top
+    tbody.insertBefore(tr, emptyRow);
+    renumberFollowup();
+
+    // Subtle slide-in
+    tr.style.background = 'rgba(95,191,160,0.12)';
+    setTimeout(() => { tr.style.transition = 'background 1.2s'; tr.style.background = ''; }, 50);
+
+    // Scroll follow-up into view
+    document.getElementById('follow-up').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ── Delete prospect row ──
